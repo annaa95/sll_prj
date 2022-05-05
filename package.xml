@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>sll_extern_roscontroller</name>
+  <version>1.2.1</version>
+  <description>
+      Custom ROS extern controller implementation for the Single Leg Learner Robot.
+  </description>
+
+
+  <author>Anna Astolfi</author>
+  <maintainer email="anna.astolfi@santannapisa.it">Anna Astolfi</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>std_msgs</build_depend>
+  <build_depend>std_srvs</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <test_depend>roslaunch</test_depend>
+  <exec_depend>rostopic</exec_depend>
+
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+
+  <export>
+  </export>
+</package>
