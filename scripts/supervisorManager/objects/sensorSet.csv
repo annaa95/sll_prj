@@ -1,0 +1,13 @@
+FBG_ID;Link;Pos;Type
+0;foot;.25;bumper
+1;thigh;.25;bumper
+2;shank;.5;bumper
+3;foot;.75;bumper
+4;thigh;.5;bumper
+5;foot;0.05;bumper
+6;foot;0.95;bumper
+7;thigh;.75;bumper
+8;shank;.25;bumper
+9;shank;.75;bumper
+10;;;
+11;;;

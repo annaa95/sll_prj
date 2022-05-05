@@ -1,0 +1,9 @@
+#VRML_OBJ R2021b utf8
+TouchSensor {
+    boundingObject Sphere {
+        radius 0.01
+    }
+    physics Physics {
+        density 1000
+    }
+}

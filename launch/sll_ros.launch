@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <env name="LD_LIBRARY_PATH" value="$(env LD_LIBRARY_PATH):$(env WEBOTS_HOME)/lib/controller"/>
+  <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python36"/>
+  <node name="supervisor_node" pkg="sll_extern_roscontroller" type="sll_runner.py" required="$(arg auto-close)" output="screen"/>
+</launch>

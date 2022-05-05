@@ -1,0 +1,25 @@
+#VRML_OBJ R2021b utf8
+Solid {
+  translation 0 0.1 0
+  children [
+    Shape {
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "variable density medium"
+      dragForceCoefficients 1 0.47 1
+      dragTorqueCoefficients 0.1 0.1 0.1
+    }
+  ]
+  boundingObject Sphere {
+    radius 0.1
+  }
+  physics Physics {
+    density -1
+    mass 1
+  }
+}

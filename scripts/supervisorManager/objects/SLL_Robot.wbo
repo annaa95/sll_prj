@@ -1,0 +1,139 @@
+#VRML_OBJ R2021b utf8
+DEF ROBOT Robot {
+  translation 0.5 1.1 0.0135519
+  rotation 0 -1 0 0.0472002
+  children [
+    Emitter {
+    }
+    Receiver {
+    }
+    Receiver {
+      name "pressure_reader"
+    }
+    Accelerometer {
+      name "accelerometer"
+    }
+    Gyro {
+      name "gyro"
+    }
+    DEF T0 Transform {
+      children [
+        Shape {
+          appearance DEF BODY_COLOR3 PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY3 Sphere {
+            radius 0.044
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        PositionSensor{
+          name "hip_encoder"
+        }
+        RotationalMotor {
+          name "hip_motor"
+        }
+      ]
+      endPoint DEF SHANK Solid {
+        translation 0 -0.25 0
+        rotation 0 0 1 0
+        children [
+          DEF T1 Transform {
+            rotation 0 0 -1 0
+            children [
+              Shape {
+                appearance DEF SEGMENT_B3app PBRAppearance {
+                  metalness 0
+                }
+                geometry DEF SEGMENT_B3 Box {
+                  size 0.05 0.5 0.05
+                }
+              }
+            ]
+          }
+          DEF T2 Transform {
+            translation 0 -0.25 0
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 0 1
+                }
+                device [
+                  PositionSensor{
+                    name "knee_encoder"
+                  }
+                  RotationalMotor {
+                    name "knee_motor"
+                  }
+                ]
+                endPoint Solid {
+                  rotation 0 0 1 0
+                  children [
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 0 1
+                        springConstant 100
+                      }
+                      endPoint DEF THIGH Solid {
+                        translation 0 -0.25 0
+                        rotation 0 0 1 0
+                        children [
+                          Shape {
+                            appearance USE SEGMENT_B3app
+                            geometry USE SEGMENT_B3
+                          }
+                        ]
+                        boundingObject USE SEGMENT_B3
+                        physics Physics {
+                          mass 0.7
+                        }
+                      }
+                    }
+                  ]
+                  boundingObject USE BODY3
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SEGMENT_B3
+        physics Physics {
+          mass 0.7
+        }
+      }
+    }
+  ]
+  name "robot"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "variable density medium"
+      dragForceCoefficients 1 0.47 1
+      dragTorqueCoefficients 0.1 0.1 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        children [
+          USE BODY3
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 1.3572
+  }
+  controller "<extern>"
+  supervisor TRUE
+}

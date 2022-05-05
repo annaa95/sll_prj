@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="extern_ros_controller_webots">
+    <include file="$(find sll_extern_roscontroller)/launch/sll_ros.launch"/>
+  </group>
+</launch>
