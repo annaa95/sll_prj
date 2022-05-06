@@ -24,15 +24,21 @@ class RobotControllerROSWrapper:
         self.message = None
         self.robotROS = SLL_RobotController()
         s = rospy.Service('robot_node/supplyCntc', supplyFirstCntc, self.handle_supplyCntcSrv)
+        
         self.curr_touchSens_pub =rospy.Publisher("touch_sensors_status",Float32MultiArray, queue_size=10)
         self.curr_TD_pub =rospy.Publisher("TD_no",Bool, queue_size=10)
         self.jointState_pub =rospy.Publisher("joint_state",Float32MultiArray, queue_size=10)
+        self.imu_pub =rospy.Publisher("imu_state",Float32MultiArray, queue_size=10)
+        
         rospy.Subscriber("state_variable_status", Float32MultiArray, self.handle_bodyPos)
 
         self.TD_no = Bool()
         self.TD_no.data = False
         self.sens = Float32MultiArray()
+        self.imu = Float32MultiArray()
         self.motorState = Float32MultiArray()
+
+        rospy.Timer(rospy.Duration(1.0/100.0), self.publish_cur_imuSens)        
         rospy.Timer(rospy.Duration(1.0/100.0), self.publish_cur_touchSens)
         rospy.Timer(rospy.Duration(1.0/100.0), self.publish_cur_motorStatus)
     
@@ -64,16 +70,24 @@ class RobotControllerROSWrapper:
         self.robotROS.headHitGround= headPos<0.01
 
     def publish_cur_motorStatus(self, event=None):
-        self.motorState.data = [self.robotROS.robot.getTime(), self.robotROS.encoders[0].getValue(), self.robotROS.encoders[1].getValue(), self.robotROS.motor[0].getVelocity(), self.robotROS.motor[1].getVelocity()]
+        self.motorState.data = [self.robotROS.robot.getTime(), self.robotROS.encoders[0].getValue(), self.robotROS.encoders[1].getValue(), self.robotROS.motor[0].getVelocity(), self.robotROS.motor[1].getVelocity(), self.robotROS.motor[0].getTorqueFeedback(), self.robotROS.motor[1].getTorqueFeedback()]
         self.jointState_pub.publish(self.motorState)  
         
+    def publish_cur_imuSens(self, event=None):
+        self.imu.data = [self.robotROS.robot.getTime()]
+        for i in range(3):
+            self.imu.data.append(self.robotROS.accelerometer.getValues()[i])
+        for i in range(3):
+            self.imu.data.append(self.robotROS.gyroscope.getValues()[i])
+        self.imu_pub.publish(self.imu)  
+    
     def publish_cur_touchSens(self, event=None):
         if self.message is not None:
             self.sens.data =self.message
             if len(self.sens.data)==len(self.robotROS.TouchSensors):
                 self.sens.data.insert(0,self.robotROS.robot.getTime())
-            self.curr_touchSens_pub.publish(self.sens)  
-
+            self.curr_touchSens_pub.publish(self.sens)
+    
     def read_contact_sensors(self):
         TD = []
         for i in range(len(self.robotROS.TouchSensors)):

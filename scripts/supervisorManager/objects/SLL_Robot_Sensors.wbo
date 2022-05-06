@@ -14,19 +14,15 @@ DEF ROBOT Robot {
     }
     Gyro {
     }
-    DEF T0 Transform {
-      children [
-        Shape {
-          appearance DEF BODY_COLOR3 PBRAppearance {
-            baseColor 0.0820075 0.364731 0.8
-            roughness 1
-            metalness 0
-          }
-          geometry DEF BODY3 Sphere {
-            radius 0.044
-          }
-        }
-      ]
+    DEF T0 Shape {
+      appearance DEF BODY_COLOR3 PBRAppearance {
+        baseColor 0.0820075 0.364731 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BODY3 Sphere {
+        radius 0.044
+      }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
