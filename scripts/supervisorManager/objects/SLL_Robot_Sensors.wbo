@@ -10,8 +10,6 @@ DEF ROBOT Robot {
     Receiver {
       name "pressure_reader"
     }
-    Accelerometer {
-    }
     Gyro {
     }
     DEF T0 Shape {
@@ -21,7 +19,7 @@ DEF ROBOT Robot {
         metalness 0
       }
       geometry DEF BODY3 Sphere {
-        radius 0.044
+        radius 0.06
       }
     }
     HingeJoint {
@@ -172,7 +170,6 @@ DEF ROBOT Robot {
                         ]
                         boundingObject USE SEGMENT_B3
                         physics Physics {
-                          mass 0.7
                         }
                       }
                     }
@@ -187,8 +184,13 @@ DEF ROBOT Robot {
         ]
         boundingObject USE SEGMENT_B3
         physics Physics {
-          mass 0.7
         }
+      }
+    }
+    Accelerometer {
+      boundingObject USE T0
+      physics Physics {
+        mass 0.05
       }
     }
   ]
@@ -209,8 +211,7 @@ DEF ROBOT Robot {
     ]
   }
   physics Physics {
-    density -1
-    mass 1.3572
+    density 1070
   }
   controller "<extern>"
   supervisor TRUE
